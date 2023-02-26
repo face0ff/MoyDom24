@@ -1,0 +1,84 @@
+{% extends 'admin/base.html'%}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+
+
+{% block content %}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap4.min.css">
+<div class="content-wrapper">
+    <section class="content-header">
+        <h1>Тарифы</h1>
+        <ul class="breadcrumb"><li><a href="{% url 'admin' %}"><i class="fa fa-home"></i> Главная</a></li>
+            <li class="active">Тарифы</li>
+        </ul>
+    </section>
+    <section class="content">
+
+        <div class="row">
+            <div class="col-xs-12">
+
+                <div class="pull-right margin-bottom">
+                    <a class="btn btn-success" href="{% url 'tariff_create' %}">Добавить тариф</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div id="w0" class="grid-view">
+                        <div class="box-body table-responsive no-padding">
+                            <table class="table table-bordered table-hover table-striped linkedRow" id="example">
+                            <thead>
+                                <tr>
+                                    <th><a href="#" data-sort="name">Название тарифа</a></th>
+                                    <th>Описание тарифа</th>
+                                    <th>Дата редактирования</th>
+                                    <th style="width: 114px; min-width: 114px">&nbsp;</th>
+                                </tr>
+                            </thead>
+
+                                <tbody>
+                                {% for tariff in object_list %}
+                                    <tr data-href="{% url 'tariff_detail' tariff.pk %}" data-key="{{ tariff.pk }}">
+                                        <td>{{ tariff.title }}</td>
+                                        <td>{{ tariff.description }}</td>
+                                        <td>{{ tariff.date_edit }}</td>
+                                        <td>
+                                            <div class="btn-group pull-right">
+                                                <a class="btn btn-default btn-sm" href="{% url 'tariff_create' tariff.pk %}" title="Копировать" data-toggle="tooltip"><i class="fa fa-clone"></i></a>
+                                                <a class="btn btn-default btn-sm" href="{% url 'tariff_update' tariff.pk %}" title="Редактировать" data-toggle="tooltip"><i class="fa fa-pencil"></i></a>
+                                                <a class="btn btn-default btn-sm" href="{% url 'tariff_delete' tariff.pk %}" title="Удалить" data-toggle="tooltip" data-pjax="0" data-method="post" data-confirm="Вы уверены, что хотите удалить этот элемент?"><i class="fa fa-trash"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                               {% endfor %}
+                                </tbody>
+
+                            </table>
+                        </div>
+                        <div class="box-footer clearfix">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+{% block script %}
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+
+        $(document).ready(function() {
+
+            $('#example').DataTable({
+
+                paging: false,
+                info: false,
+                searching: false,
+            })
+
+        } );
+    </script>
+{% endblock %}
