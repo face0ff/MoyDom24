@@ -29,7 +29,8 @@
                             <table class="table table-bordered table-hover table-striped linkedRow" id="example">
                             <thead>
                                 <tr>
-                                    <th><a href="#" data-sort="name">Название тарифа</a></th>
+                                    <th style="width: 25%" class="sort"><span style="color: #72afd2" id="sort-span">Название тарифа </span></th>
+
                                     <th>Описание тарифа</th>
                                     <th>Дата редактирования</th>
                                     <th style="width: 114px; min-width: 114px">&nbsp;</th>
@@ -52,6 +53,10 @@
                                     </tr>
                                {% endfor %}
                                 </tbody>
+                            <form method="get" id="form">
+                                    {% csrf_token %}
+                                <input type="hidden" name="filter" value="" id="filter">
+                            </form>
 
                             </table>
                         </div>
@@ -67,17 +72,14 @@
 {% block script %}
 
     <script>
+        const link_to_update = document.querySelectorAll('tr[data-href]');
 
-        $(document).ready(function() {
+        link_to_update.forEach(function(link){
+            link.addEventListener('click', function(){
+                window.location = this.dataset.href;
+            });
+        });
 
-            $('#example').DataTable({
-
-                paging: false,
-                info: false,
-                searching: false,
-            })
-
-        } );
         $(document).on('click', '.delete', function(e){
             if (confirm('Удалить?')) {
 
@@ -85,5 +87,28 @@
                 return false
             }
         });
+
+        $('.sort').click(function () {
+            if (localStorage.tariff == 1) {
+                $('#sort-span').html('Название тарифа <i class="fa fa-sort-alpha-desc"></i>')
+                localStorage.tariff = 0
+                $('#filter').attr('value', 0)
+                $('#form').submit()
+            } else {
+                $('#sort-span').html('Название тарифа <i class="fa fa-sort-alpha-asc"></i>')
+                localStorage.tariff = 1
+                $('#filter').attr('value', 1)
+                $('#form').submit()
+            }
+        })
+
+
+        if (localStorage.tariff == 1) {
+            $('#sort-span').html('Название тарифа <i class="fa fa-sort-alpha-asc"></i>')
+        }
+        if (localStorage.tariff == 0) {
+            $('#sort-span').html('Название тарифа <i class="fa fa-sort-alpha-desc"></i>')
+        }
+
     </script>
 {% endblock %}

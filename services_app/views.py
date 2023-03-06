@@ -76,6 +76,17 @@ class TariffsList(ListView):
     model = Tariff
     template_name = 'tariffs_list.html'
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        object_list = Tariff.objects.all()
+        print(self.request.GET.get('filter'))
+        if self.request.GET.get('filter') == '1':
+            object_list = object_list.order_by('-title')
+        if self.request.GET.get('filter') == '0':
+            object_list = object_list.order_by('title')
+        context['object_list'] = object_list
+        return context
+
 class TariffDetail(DetailView):
     model = Tariff
     template_name = 'tariff.html'
@@ -397,6 +408,7 @@ def show_unit_service(request):
         'services_price': list(unit_name)
     }
     return JsonResponse(response, status=200)
+
 
 def select_field(request):
     response = {}
