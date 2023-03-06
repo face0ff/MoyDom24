@@ -1,3 +1,9 @@
+import json
+
+from django import forms
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.core.serializers import serialize
+from django.core.serializers.json import DjangoJSONEncoder
 from django.db import IntegrityError
 from django.http import HttpResponseRedirect, request, JsonResponse, HttpResponse
 
@@ -7,10 +13,12 @@ from django.views.generic import CreateView, ListView, UpdateView, DetailView
 from django.contrib import messages
 from copy import deepcopy
 
-
+from house_app.models import House, Section, Apartment
 from services_app.forms import ServicesForm, ServicesFormSet, UnitFormSet, TariffForm, PriceTariffServicesFormset, \
-    PriceTariffServicesForm, RequisiteForm, ItemForm
-from services_app.models import Services, Unit, Tariff, PriceTariffServices, Requisite, Item
+    PriceTariffServicesForm, RequisiteForm, ItemForm, MeterForm
+from services_app.models import Services, Unit, Tariff, PriceTariffServices, Requisite, Item, MeterReading
+from datetime import datetime
+
 
 
 class ServicesAdmin(CreateView):
@@ -234,14 +242,6 @@ class Requisite(CreateView):
 class ItemList(ListView):
     model = Item
     template_name = 'items_list.html'
-    def get_queryset(self):
-        queryset = Item.objects.all()
-        print(self.request.GET)
-        if self.request.GET.get('filter') == '0':
-            queryset = queryset.order_by('income_invoice')
-        if self.request.GET.get('filter') == '1':
-            queryset = queryset.order_by('-income_invoice')
-        return queryset
 
 
 class ItemCreate(CreateView):
@@ -258,6 +258,119 @@ class ItemUpdate(UpdateView):
     success_url = reverse_lazy('items')
 
 
+class MeterList(ListView):
+    model = MeterReading
+    template_name = 'meter_list.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        meter_readings = MeterReading.objects.all()
+        meters = Services.objects.filter(show=True)
+        sections = Section.objects.all()
+        houses = House.objects.all()
+        if self.request.GET.get('filter-number') == '1':
+            meter_readings = meter_readings.order_by('-apartment__number')
+        if self.request.GET.get('filter-number') == '0':
+            meter_readings = meter_readings.order_by('apartment__number')
+        if self.request.GET.get('house'):
+            meter_readings = meter_readings.filter(apartment__section__house=self.request.GET.get('house'))
+        if self.request.GET.get('section'):
+            meter_readings = meter_readings.filter(apartment__section=self.request.GET.get('section'))
+        if self.request.GET.get('input_number'):
+            meter_readings = meter_readings.filter(apartment__number=self.request.GET.get('input_number'))
+        if self.request.GET.get('meter'):
+            meter_readings = meter_readings.filter(meter_id=self.request.GET.get('meter'))
+
+        paginator = Paginator(meter_readings, 10)  # 3 posts in each page
+        page = self.request.GET.get('page')
+        try:
+            meter_readings = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer deliver the first page
+            meter_readings = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range deliver last page of results
+            meter_readings = paginator.page(paginator.num_pages)
+
+        context['meters'] = meters
+        context['houses'] = houses
+        context['sections'] = sections
+        context['meter_readings'] = meter_readings
+        context['page'] = page
+        return context
+
+class MeterApartmentList(ListView):
+    model = MeterReading
+    template_name = 'meter_apartment_list.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.GET.get('apartment_id') and self.request.GET.get('service_id'):
+            meter_readings = MeterReading.objects.filter(apartment_id=self.request.GET.get('apartment_id'),
+                                                         meter_id=self.request.GET.get('service_id'))
+            meters = Services.objects.filter(show=True, id=self.request.GET.get('service_id'))
+        else:
+            meter_readings = MeterReading.objects.filter(apartment_id=1)
+            meters = Services.objects.filter(show=True)
+        sections = Section.objects.all()
+        houses = House.objects.all()
+        print(self.request.GET)
+        if self.request.GET.get('number'):
+            meter_readings = meter_readings.filter(number=self.request.GET.get('number'))
+        if self.request.GET.get('status'):
+            meter_readings = meter_readings.filter(status=self.request.GET.get('status'))
+        if self.request.GET.get('section'):
+            meter_readings = meter_readings.filter(apartment__section=self.request.GET.get('section'))
+        if self.request.GET.get('input_date'):
+            date = self.request.GET.get('input_date')
+            meter_readings = meter_readings.filter(date__range=[date.split(' ')[0], date.split(' ')[1]])
+        if self.request.GET.get('meter'):
+            meter_readings = meter_readings.filter(meter_id=self.request.GET.get('meter'))
+        if self.request.GET.get('filter-date') == '0':
+            meter_readings = meter_readings.order_by('date')
+        if self.request.GET.get('filter-date') == '1':
+            meter_readings = meter_readings.order_by('-date')
+
+        paginator = Paginator(meter_readings, 10)  # 3 posts in each page
+        page = self.request.GET.get('page')
+        try:
+            meter_readings = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer deliver the first page
+            meter_readings = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range deliver last page of results
+            meter_readings = paginator.page(paginator.num_pages)
+
+        context['meters'] = meters
+        context['houses'] = houses
+        context['section'] = sections
+        context['meter_readings'] = meter_readings
+        context['page'] = page
+        return context
+
+
+
+
+class MeterCreate(CreateView):
+    model = MeterReading
+    template_name = 'meter_create.html'
+    form_class = MeterForm
+    success_url = reverse_lazy('meter_list')
+
+
+class MeterDetail(DetailView):
+    model = MeterForm
+    template_name = 'meter_detail.html'
+
+
+class MeterUpdate(UpdateView):
+    model = MeterReading
+    template_name = 'meter_update.html'
+    form_class = MeterForm
+    success_url = reverse_lazy('meter_list')
+
+
 def item_delete(request, pk):
     item = get_object_or_404(Item, id=pk)
     item.delete()
@@ -269,6 +382,11 @@ def tariff_delete(request, pk):
     tariff.delete()
     return redirect('tariffs')
 
+def meter_delete(request, pk):
+    meter = get_object_or_404(MeterReading, id=pk)
+    meter.delete()
+    return redirect('meter_list')
+
 def show_unit_service(request):
     # if request.is_ajax():
     service_id = request.GET.get('service_id')
@@ -279,4 +397,29 @@ def show_unit_service(request):
         'services_price': list(unit_name)
     }
     return JsonResponse(response, status=200)
+
+def select_field(request):
+    response = {}
+    if request.GET.get('house_field'):
+        house = House.objects.get(pk=request.GET.get('house_field'))
+        section_house = house.sections.all().values('id', 'name')
+        apart_house = Apartment.objects.filter(section__house=house).values('id', 'number')
+        print(section_house)
+        print(apart_house)
+        response = {
+            'section_data': list(section_house),
+            'apart_data': list(apart_house)
+        }
+        return JsonResponse(response, status=200)
+    if request.GET.get('section_field'):
+        print(request.GET.get('section_field'))
+        apart_house = Apartment.objects.filter(section__id=request.GET.get('section_field')).values('id', 'number')
+        response = {
+            'apartament_data': list(apart_house)
+        }
+        return JsonResponse(response, status=200)
+    else:
+        return JsonResponse(response, status=200)
+
+
 

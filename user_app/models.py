@@ -27,7 +27,8 @@ class UserProfile(AbstractBaseUser):
                ('disable', 'Отключен'))
     status = models.CharField(max_length=16, choices=CHOICES, default='new', verbose_name='Статус')
     role = models.ForeignKey('Role', on_delete=models.PROTECT, null=True, blank=True, verbose_name='Роль')
-
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
     class Meta:
         verbose_name = 'Профиль'

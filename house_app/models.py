@@ -14,7 +14,7 @@ class Section(models.Model):
         verbose_name_plural = 'Секции'
 
     def __str__(self):
-        return self.name
+        return f"{self.name}"
 
 
 class Floor(models.Model):
@@ -25,7 +25,7 @@ class Floor(models.Model):
         verbose_name_plural = 'Этажи'
 
     def __str__(self):
-        return self.name
+        return f"{self.name}"
 
 
 class House(models.Model):
@@ -45,7 +45,8 @@ class House(models.Model):
         verbose_name_plural = 'Дома'
 
     def __str__(self):
-        return self.name
+        return f"{self.name}"
+
 
 
 class Apartment(models.Model):
@@ -63,4 +64,4 @@ class Apartment(models.Model):
         unique_together = ['section', 'floor', 'number']
 
     def __str__(self):
-        return self.number
+        return f"{self.number}"

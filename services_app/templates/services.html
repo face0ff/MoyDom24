@@ -22,22 +22,20 @@
                         <ul class="nav nav-tabs">
                             <li class="active">
                                 <a href="#tab_service"
-                                   data-toggle="tab"
-                                   aria-expanded="true">
+                                   data-toggle="tab">
                                     Услуги
                                 </a>
                             </li>
                             <li>
                                 <a href="#tab_unit"
-                                   data-toggle="tab"
-                                   aria-expanded="false">
+                                   data-toggle="tab">
                                     Единицы измерения
                                 </a>
                             </li>
                         </ul>
                         <div class="tab-content">
                             <div class="can-delete-list"></div>
-                            <div class="tab-pane clearfix active" id="tab_service">
+                            <div class="tab-pane active" id="tab_service">
                                 {{ services_formset.management_form }}
                                 <div id="service_form">
                                     {% for form in services_formset %}
@@ -109,7 +107,7 @@
                                     <button id="add-service" type="button" class="btn btn-default" style="margin: 7px">Добавить</button>
                                 </div>
                             </div>
-                            <div class="tab-pane clearfix" id="tab_unit">
+                            <div class="tab-pane " id="tab_unit">
                                 {{ unit_formset.management_form }}
                                 <div id="unit_form">
                                     {% for form in unit_formset %}
@@ -170,7 +168,9 @@
     </div>
 {% endblock %}
 {% block script %}
+
     <script>
+
             //add SERVICE form by click on button
     $('#add-service').click(function() {
         let form_idx = $('#id_services-TOTAL_FORMS').val();

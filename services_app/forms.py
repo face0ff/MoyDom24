@@ -1,6 +1,9 @@
+
 from django.contrib.auth.models import User
 from django.forms import ModelForm, modelformset_factory, Textarea, FileInput, CheckboxInput, CharField, TextInput
 from django import forms
+
+from house_app.models import House, Apartment, Section
 from .models import *
 
 
@@ -63,3 +66,51 @@ class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
         fields = '__all__'
+
+
+class MeterForm(forms.ModelForm):
+    house = forms.ChoiceField(
+        required=False,
+        widget=forms.Select(
+            attrs={'class': 'form-control', 'id': 'house_field'})
+    )
+    section = forms.ModelChoiceField(
+        required=False,
+        widget=forms.Select(
+            attrs={'class': 'form-control', 'id': 'section_field'}),
+        queryset=Section.objects.all()
+    )
+    apartment = forms.ModelChoiceField(
+        required=False,
+        widget=forms.Select(
+            attrs={'class': 'form-control', 'id': 'apartment_field'}),
+        queryset=Apartment.objects.all()
+    )
+    class Meta:
+        model = MeterReading
+        fields = ('number', 'date', 'apartment', 'meter', 'status', 'expense')
+        exclude = ['house', 'section']
+
+    def __init__(self, *args, **kwargs):
+        super(MeterForm, self).__init__(*args, **kwargs)
+        self.fields['house'].choices = [('', 'Выберите значение...')] + [(item.id, item.name) for item in House.objects.all()]
+        self.fields['section'].choices = [('', 'Выберите значение...')]
+        self.fields['apartment'].choices = [('', 'Выберите значение...')]
+        self.fields['meter'].empty_label = 'Выберите значение...'
+        self.fields['meter'].queryset = Services.objects.filter(show=True)
+        self.fields['number'].error_messages = {'unique': 'Такой номер уже существует'}
+
+    # def clean_apartment(self):
+    #     apartment = self.cleaned_data['apartment']
+    #     print('------------------------')
+    #     print(apartment.id)
+    #     self.
+    #
+    def save(self, commit=True):
+        meter = super().save(commit=False)
+        apartment = self.cleaned_data['apartment']
+        meter.apartment = apartment
+        if commit:
+            meter.save()
+        return meter
+
