@@ -18,7 +18,7 @@
                 <div class="col-xs-12">
 
                     <div class="pull-right margin-bottom">
-                        <a class="btn btn-success" href="{% url 'meter_create' %}">Добавить показания</a>
+                        <a class="btn btn-success" href="{% url 'meter_create' %}?apartment_id={{ meter_readings.0.apartment.id}}&?service_id={{ meter_readings.0.meter.id}}">Добавить показания</a>
                     </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
 
                             <div class="box-body table-responsive no-padding">
                                 <form method="get" id="form">
-                                    {% csrf_token %}
+
                                     <input type="hidden" name="apartment_id" id="apartment_id"
                                            value="{{ apartment.id }}">
                                     <table class="table table-hover table-striped table-responsive no-padding"
@@ -166,37 +166,7 @@
                                                 </td>
                                             </tr>
                                             <!-- Modal -->
-                                            <div class="modal fade" id="deleteModal-{{ forloop.counter }}"
-                                                 data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                                                 aria-labelledby="deleteModalLabel-{{ forloop.counter }}"
-                                                 aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header bg-danger">
-                                                            <h5 class="modal-title"
-                                                                id="deleteModalLabel-{{ forloop.counter }}">
-                                                                Подтверждение удаления</h5>
-                                                            <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <form method="post"
-                                                              action="{% url 'meter_delete' meter_reading.id %}">
-                                                            {% csrf_token %}
-                                                            <div class="modal-body">
-                                                                Вы действительно хотите удалить показания счетчика
-                                                                <b>№{{ meter_reading }}</b>?
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">Отмена
-                                                                </button>
-                                                                <button type="submit" class="btn btn-danger">Удалить
-                                                                </button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
+
                                         {% endfor %}
                                         </tbody>
                                     </table>

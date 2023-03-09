@@ -150,6 +150,54 @@
                 });
             });
         });
+        $(document).ready(function(){
+            if (window.location.search.split("=")[1]!== undefined){
+                var index_apart = window.location.search.split("=")[1][0];
+                var index_meter = window.location.search.split("=")[2][0]; // получаем индекс из ссылки
+                console.log(index_meter)
+                $.ajax({
+                    url: '{% url 'select_field' %}', // адрес запроса
+                    type: 'GET', // тип запроса
+                    data: { index_apart: index_apart, index_meter: index_meter }, // данные для запроса
+                success: function(data) { // при удачном выполнении запроса
+                    // Очистить выбор в другом поле
+
+                    // Заполнить другое поле данными, полученными с сервера
+                    $.each(data.house_data, function(key, value) {
+
+                        $('#house_field').val(value.id)
+                        {#$("#house_field").trigger("change");#}
+
+
+                    });
+                    $.each(data.all_apart, function(key, value) {
+                        $('#apartment_field').val(value.id)
+                            .append($("<option value=" + value.id + ">" + value.number + "</option>"));
+                        $('#section_field').val(value.id)
+                            .append($("<option value=" + value.id + ">" + value.section + "</option>"));
+
+
+                    });
+                    $.each(data.apartment_data, function(key, value) {
+                        $('#apartment_field').val(value.id)
+
+                        $('#section_field').val(value.id)
+
+
+
+                    });
+                    $.each(data.meter_data, function(key, value) {
+
+                        $('#id_meter').val(value.id)
+
+                    });
+                    $.each(data.number, function(key, value) {
+                         $('#id_number').val(value.id)
+                    });
+                }
+                });
+            }
+        })
     </script>
 
 

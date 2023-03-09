@@ -65,7 +65,7 @@
                                             </td>
                                             <td>
                                                 <select class="form-control" name="section" id="section"
-                                                        {% if not sections %}style="font-size: 15px; height: 38px; color: grey"{% endif %}>
+                                                        {% if not sections %}{% endif %}>
                                                     <option hidden disabled selected value></option>
                                                     {% if sections %}
                                                         {% for section in sections %}
@@ -110,14 +110,16 @@
                                                 <td style="background-color: #DFD5; font-weight: normal">{{ meter_reading.meter.unit }}</td>
                                                 <td style="padding: 6px 5px 7px 4px">
                                                     <div class="btn-group pull-right">
-                                                        <a class="btn btn-default btn-sm"
-                                                           href="{% url 'meter_create' %}?apartment_id={{ meter_reading.apartment.id }}"
-                                                           title="Снять новое показание счетчика" data-toggle="tooltip"><i
-                                                                class="fa fa-dashboard"></i></a>
-                                                        <a class="btn btn-default btn-sm"
+                                                        <a class="btn btn-default btn-sm" target="_blank" rel="noopener noreferrer"
+                                                           href="{% url 'meter_create' %}?apartment_id={{ meter_readings.0.apartment.id}}&?service_id={{ meter_readings.0.meter.id}}"
+                                                           title="Снять новое показание счетчика"
+                                                           data-toggle="tooltip"><i class="fa fa-dashboard"></i>
+                                                        </a>
+                                                        <a class="btn btn-default btn-sm" target="_blank"
                                                            href="{% url 'meter_apartment_list' %}?apartment_id={{ meter_reading.apartment.id }}"
                                                            title="Открыть историю показаний для счетчика"
-                                                           data-toggle="tooltip"><i class="fa fa-eye"></i></a>
+                                                           data-toggle="tooltip"><i class="fa fa-eye"></i>
+                                                        </a>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -143,6 +145,7 @@
 {% block script %}
 
     <script>
+
         const link_to_update = document.querySelectorAll('tr[data-href]');
 
         link_to_update.forEach(function(link){
@@ -202,11 +205,11 @@
                     $('#form').submit()
                 }
             })
-        $('#clear').on('click', function() {
-          localStorage.removeItem('house');
-          localStorage.removeItem('input_number');
-          localStorage.removeItem('section');
-          localStorage.removeItem('meter');
+        $('#clear').on('click', function () {
+            localStorage.removeItem('house');
+            localStorage.removeItem('input_number');
+            localStorage.removeItem('section');
+            localStorage.removeItem('meter');
 
 
         });

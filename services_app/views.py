@@ -277,7 +277,7 @@ class MeterList(ListView):
         context = super().get_context_data(**kwargs)
         meter_readings = MeterReading.objects.all()
         meters = Services.objects.filter(show=True)
-        sections = Section.objects.all()
+
         houses = House.objects.all()
         if self.request.GET.get('filter-number') == '1':
             meter_readings = meter_readings.order_by('-apartment__number')
@@ -285,6 +285,8 @@ class MeterList(ListView):
             meter_readings = meter_readings.order_by('apartment__number')
         if self.request.GET.get('house'):
             meter_readings = meter_readings.filter(apartment__section__house=self.request.GET.get('house'))
+            sections = Section.objects.filter(house=self.request.GET.get('house'))
+            context['sections'] = sections
         if self.request.GET.get('section'):
             meter_readings = meter_readings.filter(apartment__section=self.request.GET.get('section'))
         if self.request.GET.get('input_number'):
@@ -305,7 +307,7 @@ class MeterList(ListView):
 
         context['meters'] = meters
         context['houses'] = houses
-        context['sections'] = sections
+
         context['meter_readings'] = meter_readings
         context['page'] = page
         return context
@@ -370,8 +372,10 @@ class MeterCreate(CreateView):
     success_url = reverse_lazy('meter_list')
 
 
+
+
 class MeterDetail(DetailView):
-    model = MeterForm
+    model = MeterReading
     template_name = 'meter_detail.html'
 
 
@@ -423,11 +427,39 @@ def select_field(request):
             'apart_data': list(apart_house)
         }
         return JsonResponse(response, status=200)
-    if request.GET.get('section_field'):
+    elif request.GET.get('section_field'):
         print(request.GET.get('section_field'))
         apart_house = Apartment.objects.filter(section__id=request.GET.get('section_field')).values('id', 'number')
         response = {
             'apartament_data': list(apart_house)
+        }
+        return JsonResponse(response, status=200)
+    elif request.GET.get('index_apart'):
+        # print(request.GET.get('section_field'))
+        house_data = House.objects.filter(sections__apartment=request.GET.get('index_apart')).values('id', 'name')
+        apart_data = Apartment.objects.filter(id=request.GET.get('index_apart')).values('id', 'number', 'section')
+        meter_data = Services.objects.filter(id=request.GET.get('index_meter')).values('id', 'main')
+        number = MeterReading.objects.filter(apartment_id=request.GET.get('index_apart')).values('id', 'number')
+        all_apart = Apartment.objects.all().values('id', 'number', 'section')
+
+        response = {
+            'all_apart': list(all_apart),
+            'number': list(number),
+            'apartment_data': list(apart_data),
+            'house_data': list(house_data),
+            'meter_data': list(meter_data)
+        }
+        return JsonResponse(response, status=200)
+    elif request.GET.get('update_id'):
+        print(request.GET.get('update_id'))
+        house_data = House.objects.filter(sections__apartment__meterreading=request.GET.get('update_id')).values('id', 'name')
+        apart_house = Apartment.objects.filter(section__apartment__meterreading=request.GET.get('update_id')).values('id', 'number')
+        all_apart = Apartment.objects.all().values('id', 'number', 'section')
+        print(apart_house)
+        response = {
+            'house_data': list(house_data),
+            'all_apart': list(all_apart),
+            'apartment_data': list(apart_house)
         }
         return JsonResponse(response, status=200)
     else:

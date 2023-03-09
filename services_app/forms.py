@@ -100,17 +100,14 @@ class MeterForm(forms.ModelForm):
         self.fields['meter'].queryset = Services.objects.filter(show=True)
         self.fields['number'].error_messages = {'unique': 'Такой номер уже существует'}
 
-    # def clean_apartment(self):
+    def clean_apartment(self):
+        return Apartment.objects.get(pk=self.cleaned_data['apartment'].id)
+
+    # def save(self, commit=True):
+    #     meter = super().save(commit=False)
     #     apartment = self.cleaned_data['apartment']
-    #     print('------------------------')
-    #     print(apartment.id)
-    #     self.
-    #
-    def save(self, commit=True):
-        meter = super().save(commit=False)
-        apartment = self.cleaned_data['apartment']
-        meter.apartment = apartment
-        if commit:
-            meter.save()
-        return meter
+    #     meter.apartment = apartment
+    #     if commit:
+    #         meter.save()
+    #     return meter
 
