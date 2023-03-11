@@ -1,0 +1,318 @@
+{% extends 'admin/base.html' %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+
+
+{% block content %}
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h1>
+                Дом 196 </h1>
+
+            <ul class="breadcrumb">
+                <li><a href="/admin/"><i class="fa fa-home"></i> Главная</a></li>
+                <li><a href="/admin/house/index">Дома</a></li>
+                <li><a href="/admin/house/196">Дом 196</a></li>
+                <li class="active">Редактирование</li>
+            </ul>
+        </section>
+
+        <section class="content">
+
+            <div class="box">
+                <div class="box-body">
+
+                    <form id="w0" action="/admin/house/update/196" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="_csrf-backend"
+                               value="QtEfGjenWL_Hbn2vQzKpYuzP_7L1uHp0kS1HWQx4dld1hHsrReo81oZXHuosQeINqvfKi8XBFhnoTgYedSAZYQ==">
+                        <div class="row">
+                            <div class="col-xs-12 col-lg-4">
+                                <div class="form-group field-houseform-name">
+                                    <label class="control-label" for="houseform-name">Название</label>
+                                    <input type="text" id="houseform-name" class="form-control" name="HouseForm[name]"
+                                           value="">
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-houseform-address">
+                                    <label class="control-label" for="houseform-address">Адрес</label>
+                                    <input type="text" id="houseform-address" class="form-control"
+                                           name="HouseForm[address]" value="">
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-houseform-image1">
+                                    <label class="control-label" for="houseform-image1">Изображение #1. Размер:
+                                        (522x350)</label>
+                                    <input type="hidden" name="HouseForm[image1]" value=""><input type="file"
+                                                                                                  id="houseform-image1"
+                                                                                                  name="HouseForm[image1]"
+                                                                                                  value="/upload/House/196/image1.png"
+                                                                                                  accept="image/*">
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-houseform-image2">
+                                    <label class="control-label" for="houseform-image2">Изображение #2. Размер:
+                                        (248x160)</label>
+                                    <input type="hidden" name="HouseForm[image2]" value=""><input type="file"
+                                                                                                  id="houseform-image2"
+                                                                                                  name="HouseForm[image2]"
+                                                                                                  accept="image/*">
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-houseform-image3">
+                                    <label class="control-label" for="houseform-image3">Изображение #3. Размер:
+                                        (248x160)</label>
+                                    <input type="hidden" name="HouseForm[image3]" value=""><input type="file"
+                                                                                                  id="houseform-image3"
+                                                                                                  name="HouseForm[image3]"
+                                                                                                  accept="image/*">
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-houseform-image4">
+                                    <label class="control-label" for="houseform-image4">Изображение #4. Размер:
+                                        (248x160)</label>
+                                    <input type="hidden" name="HouseForm[image4]" value=""><input type="file"
+                                                                                                  id="houseform-image4"
+                                                                                                  name="HouseForm[image4]"
+                                                                                                  accept="image/*">
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-houseform-image5">
+                                    <label class="control-label" for="houseform-image5">Изображение #5. Размер:
+                                        (248x160)</label>
+                                    <input type="hidden" name="HouseForm[image5]" value=""><input type="file"
+                                                                                                  id="houseform-image5"
+                                                                                                  name="HouseForm[image5]"
+                                                                                                  accept="image/*">
+
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-lg-8">
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-6">
+                                        <img src="http://myhouse24.avada-media.ua/site/glide?path=%2Fupload%2FHouse%2F196%2Fimage1.png&w=522&h=350&fit=crop"
+                                             class="img-responsive largeImg margin-bottom-30"
+                                             alt="Изображение #1. Размер: (522x350)">
+                                    </div>
+                                    <div class="col-xs-6 col-md-3">
+                                        <img src="http://myhouse24.avada-media.ua/site/glide?path=%2Fupload%2Fplaceholder.jpg&w=248&h=160&fit=crop"
+                                             class="img-responsive smallImg margin-bottom-30"
+                                             alt="Изображение #2. Размер: (248x160)">
+                                    </div>
+                                    <div class="col-xs-6 col-md-3">
+                                        <img src="http://myhouse24.avada-media.ua/site/glide?path=%2Fupload%2Fplaceholder.jpg&w=248&h=160&fit=crop"
+                                             class="img-responsive smallImg margin-bottom-30"
+                                             alt="Изображение #3. Размер: (248x160)">
+                                    </div>
+                                    <div class="col-xs-6 col-md-3">
+                                        <img src="http://myhouse24.avada-media.ua/site/glide?path=%2Fupload%2Fplaceholder.jpg&w=248&h=160&fit=crop"
+                                             class="img-responsive smallImg margin-bottom-30"
+                                             alt="Изображение #4. Размер: (248x160)">
+                                    </div>
+                                    <div class="col-xs-6 col-md-3">
+                                        <img src="http://myhouse24.avada-media.ua/site/glide?path=%2Fupload%2Fplaceholder.jpg&w=248&h=160&fit=crop"
+                                             class="img-responsive smallImg margin-bottom-30"
+                                             alt="Изображение #5. Размер: (248x160)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 col-lg-8">
+                                <div class="nav-tabs-custom">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a href="#tab-sections" data-toggle="tab"
+                                                              aria-expanded="true">Секции</a></li>
+                                        <li><a href="#tab-floors" data-toggle="tab" aria-expanded="false">Этажи</a></li>
+                                        <li><a href="#tab-houseuseradmins" data-toggle="tab" aria-expanded="false">Пользователи</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active clearfix" id="tab-sections">
+                                            <div id="form-section-rows">
+
+                                                <div id="form-section-0" class="row form-section">
+                                                    <div class="col-xs-12">
+                                                        <input type="hidden" id="section-0-id" name="Section[0][id]"
+                                                               value="325"> <input type="hidden" id="section-0-house_id"
+                                                                                   name="Section[0][house_id]"
+                                                                                   value="196">
+                                                        <div class="form-group">
+                                                            <label for="section-0-name">Название</label>
+                                                            <div class="input-group">
+                                                                <input type="text" id="section-0-name"
+                                                                       class="form-control" name="Section[0][name]"
+                                                                       value="Секция 1"> <span class="input-group-btn">
+                    <button type="button" class="btn btn-danger form-row-remove-btn"><i
+                            class="fa fa-trash"></i></button>                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div id="form-section-1" class="row form-section">
+                                                    <div class="col-xs-12">
+                                                        <input type="hidden" id="section-1-id" name="Section[1][id]"
+                                                               value="326"> <input type="hidden" id="section-1-house_id"
+                                                                                   name="Section[1][house_id]"
+                                                                                   value="196">
+                                                        <div class="form-group">
+                                                            <label for="section-1-name">Название</label>
+                                                            <div class="input-group">
+                                                                <input type="text" id="section-1-name"
+                                                                       class="form-control" name="Section[1][name]"
+                                                                       value="Секция 2"> <span class="input-group-btn">
+                    <button type="button" class="btn btn-danger form-row-remove-btn"><i
+                            class="fa fa-trash"></i></button>                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button class="btn btn-success pull-right form-row-add-section-btn"
+                                                    type="button">Добавить
+                                            </button>
+                                        </div>
+                                        <div class="tab-pane clearfix" id="tab-floors">
+                                            <div id="form-floor-rows">
+
+                                                <div id="form-floor-0" class="row form-floor">
+                                                    <div class="col-xs-12">
+                                                        <input type="hidden" id="floor-0-id" name="Floor[0][id]"
+                                                               value="401"> <input type="hidden" id="floor-0-house_id"
+                                                                                   name="Floor[0][house_id]"
+                                                                                   value="196">
+                                                        <div class="form-group">
+                                                            <label for="floor-0-name">Название</label>
+                                                            <div class="input-group">
+                                                                <input type="text" id="floor-0-name"
+                                                                       class="form-control" name="Floor[0][name]"
+                                                                       value="Этаж 1"> <span class="input-group-btn">
+                    <button type="button" class="btn btn-danger form-row-remove-btn"><i
+                            class="fa fa-trash"></i></button>                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div id="form-floor-1" class="row form-floor">
+                                                    <div class="col-xs-12">
+                                                        <input type="hidden" id="floor-1-id" name="Floor[1][id]"
+                                                               value="402"> <input type="hidden" id="floor-1-house_id"
+                                                                                   name="Floor[1][house_id]"
+                                                                                   value="196">
+                                                        <div class="form-group">
+                                                            <label for="floor-1-name">Название</label>
+                                                            <div class="input-group">
+                                                                <input type="text" id="floor-1-name"
+                                                                       class="form-control" name="Floor[1][name]"
+                                                                       value="Этаж 2"> <span class="input-group-btn">
+                    <button type="button" class="btn btn-danger form-row-remove-btn"><i
+                            class="fa fa-trash"></i></button>                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button class="btn btn-success pull-right form-row-add-floor-btn"
+                                                    type="button">Добавить
+                                            </button>
+                                        </div>
+                                        <div class="tab-pane clearfix" id="tab-houseuseradmins">
+                                            <div id="form-houseuseradmin-rows">
+
+                                                <div id="form-houseuseradmin-0" class="row form-houseuseradmin">
+                                                    <div class="col-xs-12 col-sm-7">
+                                                        <input type="hidden" id="houseuseradmin-0-id"
+                                                               name="HouseUserAdmin[0][id]" value="136"> <input
+                                                            type="hidden" id="houseuseradmin-0-house_id"
+                                                            name="HouseUserAdmin[0][house_id]" value="196">
+                                                        <div class="form-group">
+                                                            <label for="houseuseradmin-0-user_admin_id">ФИО</label>
+                                                            <select id="houseuseradmin-0-user_admin_id"
+                                                                    class="form-control useradmin-select"
+                                                                    name="HouseUserAdmin[0][user_admin_id]">
+                                                                <option value="">Выберите...</option>
+
+                                                            </select></div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-5">
+                                                        <div class="form-group">
+                                                            <label for="houseuseradmin-0-role">Роль</label>
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control useradmin-role"
+                                                                       id="houseuseradmin-0-role" value="Управляющий"
+                                                                       readonly>
+                                                                <span class="input-group-btn">
+                    <button type="button" class="btn btn-danger form-row-remove-btn"><i
+                            class="fa fa-trash"></i></button>                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div id="form-houseuseradmin-1" class="row form-houseuseradmin">
+                                                    <div class="col-xs-12 col-sm-7">
+                                                        <input type="hidden" id="houseuseradmin-1-id"
+                                                               name="HouseUserAdmin[1][id]" value="137"> <input
+                                                            type="hidden" id="houseuseradmin-1-house_id"
+                                                            name="HouseUserAdmin[1][house_id]" value="196">
+                                                        <div class="form-group">
+                                                            <label for="houseuseradmin-1-user_admin_id">ФИО</label>
+                                                            <select id="houseuseradmin-1-user_admin_id"
+                                                                    class="form-control useradmin-select"
+                                                                    name="HouseUserAdmin[1][user_admin_id]">
+                                                                <option value="">Выберите...</option>
+
+                                                            </select></div>
+                                                    </div>
+                                                    <div class="col-xs-12 col-sm-5">
+                                                        <div class="form-group">
+                                                            <label for="houseuseradmin-1-role">Роль</label>
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control useradmin-role"
+                                                                       id="houseuseradmin-1-role" value="Сантехник"
+                                                                       readonly>
+                                                                <span class="input-group-btn">
+                    <button type="button" class="btn btn-danger form-row-remove-btn"><i
+                            class="fa fa-trash"></i></button>                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <button class="btn btn-success pull-right form-row-add-houseuseradmin-btn"
+                                                    type="button">Добавить
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 text-right">
+                                <div class="form-group">
+                                    <a href="/admin/house/index" class="btn btn-default">Отменить</a>
+                                    <button type="submit" class="btn btn-success">Сохранить</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </section>
+    </div>
+{% endblock %}
+{% block script %}
+
+
+
+{% endblock %}

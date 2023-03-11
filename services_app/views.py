@@ -307,7 +307,6 @@ class MeterList(ListView):
 
         context['meters'] = meters
         context['houses'] = houses
-
         context['meter_readings'] = meter_readings
         context['page'] = page
         return context
@@ -377,6 +376,12 @@ class MeterCreate(CreateView):
 class MeterDetail(DetailView):
     model = MeterReading
     template_name = 'meter_detail.html'
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        houses = House.objects.all()
+        context['houses'] = houses
+        return context
+
 
 
 class MeterUpdate(UpdateView):

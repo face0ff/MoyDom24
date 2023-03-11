@@ -10,6 +10,8 @@ urlpatterns = [
     path("admin/user/create/", UserCreate.as_view(), name='user_create'),
     path("admin/user/update/<int:pk>", UserUpdate.as_view(), name='user_update'),
     path("admin/user/delete/<int:pk>", views.user_delete, name='user_delete'),
-    path('admin/user/', get_data, name='get_data'),
+    # path('admin/user/', get_data, name='get_data'),
+
+    path("admin/owner/<int:pk>", OwnerDetail.as_view(), name='owner_detail'),
 
 ]

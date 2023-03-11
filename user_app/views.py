@@ -108,63 +108,6 @@ def user_delete(request, pk):
     return redirect('users_list')
 
 
-def get_data(request):
-    pass
-
-    # data = UserProfile.objects.filter().values('last_name', 'first_name', 'role', 'email', 'telephone', 'status')
-    # data_list = []
-    # print(data)
-    # print(data_list)
-    # for item in data:
-    #     name = item['last_name']+" "+item['first_name']
-    #     roles = Role.objects.get(id=item['role']).get_roles_display()
-    #
-    #     print(name)
-    #     print(roles)
-    #
-    #     data_list.append({
-    #         'null': " ",
-    #         'name': name,
-    #         'role': roles,
-    #         'email': item['email'],
-    #         'telephone': item['telephone'],
-    #         'status': item['status'],
-    #         'null': " ",
-    #
-    #
-    #     })
-    # recordsTotal = data.count()
-    # draw = int(request.GET.get('draw', 0))
-    # start = int(request.GET.get('start', 0))
-    # length = int(request.GET.get('length', 10))
-    # search_value = request.GET.get('search[value]', None)
-    # order_column = request.POST.get('order[0][column]', 0)
-    # order = request.POST.get('order[0][dir]', 'asc')
-    #
-    # if search_value:
-    #     data = data.filter(Q(last_name__icontains=search_value))
-    #
-    # total_filter = data.count()
-    #
-    # if order_column and order:
-    #     if order == 'desc':
-    #         data = data.order_by('-{}'.format(order_column))
-    #     else:
-    #         data = data.order_by(order_column)
-    #
-    # paginator = Paginator(data, length)
-    # page = start // length + 1
-    # try:
-    #     data = paginator.page(page)
-    # except PageNotAnInteger:
-    #     data = paginator.page(1)
-    # except EmptyPage:
-    #     data = paginator.page(paginator.num_pages)
-    #
-    # response_data = {
-    #     'draw': draw,
-    #     'recordsTotal': recordsTotal,
-    #     'recordsFiltered': total_filter,
-    #     'data': data_list
-    # }
-    # return JsonResponse(response_data, safe=False)
+class OwnerDetail(DetailView):
+    model = UserProfile
+    template_name = 'owner_detail.html'

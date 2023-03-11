@@ -1,0 +1,163 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+
+
+{% block content %}
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h1>
+                Новый дом </h1>
+
+            <ul class="breadcrumb">
+                <li><a href="{% url 'admin' %}"><i class="fa fa-home"></i> Главная</a></li>
+                <li><a href="{% url 'houses_list' %}">Дома</a></li>
+                <li class="active">Новый дом</li>
+            </ul>
+        </section>
+
+        <section class="content">
+
+            <div class="box">
+                <div class="box-body">
+
+                    <form id="form"  method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                            {{ form.errors }}
+                            <div class="col-xs-12 col-lg-4">
+                                <div class="form-group field-houseform-name">
+                                    <label class="control-label" for="houseform-name">Название</label>
+                                    {{ form.name|add_class:'form-control' }}
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-houseform-address">
+                                    <label class="control-label" for="houseform-address">Адрес</label>
+                                    {{ form.address|add_class:'form-control'  }}
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-houseform-image1">
+                                    <label class="control-label" for="houseform-image1">Изображение #1. Размер:
+                                        (522x350)</label>
+                                    {{ form.image_1 }}
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-houseform-image2">
+                                    <label class="control-label" for="houseform-image2">Изображение #2. Размер:
+                                        (248x160)</label>
+                                    {{ form.image_2 }}
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-houseform-image3">
+                                    <label class="control-label" for="houseform-image3">Изображение #3. Размер:
+                                        (248x160)</label>
+                                    {{ form.image_3 }}
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-houseform-image4">
+                                    <label class="control-label" for="houseform-image4">Изображение #4. Размер:
+                                        (248x160)</label>
+                                    {{ form.image_4 }}
+
+                                    <div class="help-block"></div>
+                                </div>
+                                <div class="form-group field-houseform-image5">
+                                    <label class="control-label" for="houseform-image5">Изображение #5. Размер:
+                                        (248x160)</label>
+                                    {{ form.image_5 }}
+
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-lg-8">
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-6">
+                                        <img src="{% static 'img/empty.jpg' %}"
+                                             class="img-responsive largeImg margin-bottom-30"
+                                             alt="Изображение #1. Размер: (522x350)">
+                                    </div>
+                                    <div class="col-xs-6 col-md-3">
+                                        <img src="{% static 'img/empty.jpg' %}"
+                                             class="img-responsive smallImg margin-bottom-30"
+                                             alt="Изображение #2. Размер: (248x160)">
+                                    </div>
+                                    <div class="col-xs-6 col-md-3">
+                                        <img src="{% static 'img/empty.jpg' %}"
+                                             class="img-responsive smallImg margin-bottom-30"
+                                             alt="Изображение #3. Размер: (248x160)">
+                                    </div>
+                                    <div class="col-xs-6 col-md-3">
+                                        <img src="{% static 'img/empty.jpg' %}"
+                                             class="img-responsive smallImg margin-bottom-30"
+                                             alt="Изображение #4. Размер: (248x160)">
+                                    </div>
+                                    <div class="col-xs-6 col-md-3">
+                                        <img src="{% static 'img/empty.jpg' %}"
+                                             class="img-responsive smallImg margin-bottom-30"
+                                             alt="Изображение #5. Размер: (248x160)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 col-lg-8">
+                                <div class="nav-tabs-custom">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active"><a href="#tab-sections" data-toggle="tab"
+                                                              aria-expanded="true">Секции</a></li>
+                                        <li><a href="#tab-floors" data-toggle="tab" aria-expanded="false">Этажи</a></li>
+                                        <li><a href="#tab-houseuseradmins" data-toggle="tab" aria-expanded="false">Пользователи</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active clearfix" id="tab-sections">
+                                            <div id="form-section">
+                                            </div>
+                                            <button class="btn btn-success pull-right form-row-add-section-btn"
+                                                    type="button">Добавить
+                                            </button>
+                                        </div>
+                                        <div class="tab-pane clearfix" id="tab-floors">
+                                            <div id="form-floor">
+                                            </div>
+                                            <button class="btn btn-success pull-right form-row-add-floor-btn"
+                                                    type="button">Добавить
+                                            </button>
+                                        </div>
+                                        <div class="tab-pane clearfix" id="tab-houseuseradmins">
+                                            <div id="form-user">
+                                            </div>
+                                            <button class="btn btn-success pull-right form-row-add-houseuseradmin-btn"
+                                                    type="button">Добавить
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 text-right">
+                                <div class="form-group">
+                                    <a href="{% url 'houses_list' %}" class="btn btn-default">Отменить</a>
+                                    <button type="submit" class="btn btn-success">Сохранить</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+{% block script %}
+
+
+
+{% endblock %}
