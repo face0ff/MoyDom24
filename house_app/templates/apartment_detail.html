@@ -6,117 +6,108 @@
 {% block content %}
     <div class="content-wrapper">
         <section class="content-header">
-            <h1>Показание счетчикa</h1>
+            <h1>
+                Квартира №{{ apartment.number }}, {{ apartment.house.address }}; Дом {{ apartment.house.name }} </h1>
+
             <ul class="breadcrumb">
                 <li><a href="{% url 'admin' %}"><i class="fa fa-home"></i> Главная</a></li>
-                <li><a href="{% url 'meter_list' %}">Счетчики</a></li>
-                <li><a href="{% url 'meter_apartment_list' %}?apartment_id={{ object.apartment.id }}">Показания счетчиков</a></li>
-                <li class="active"><a>Показание счетчика №{{ object }}</a></li>
-
+                <li><a href="{% url 'apartments_list' %}">Квартиры</a></li>
+                <li class="active">Квартира №{{ apartment.number }}, {{ apartment.house.address }}; Дом {{ apartment.house.name }}</li>
             </ul>
         </section>
-        <div class="row" style="padding-bottom: 10px; margin: 0">
 
-        <div class="col-xs-12 col-md-7 col-lg-6">
-            <div class="page-header-spec">
-                <div class="form-group">
-                    <div class="input-group date">
-                        <div class="input-group-addon">
-                            №
-                        </div>
-                        <input type="number" readonly class="form-control" value="{{ object }}">
+        <section class="content">
+
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Просмотр квартиры</h3>
+                    <div class="box-tools">
+                        <button class="btn btn-default btn-sm disabled" data-confirm="Лицевой счет неактивен"><span
+                                class="hidden-xs"><i class="fa fa-dollar"></i> Принять платеж</span><i
+                                class="fa fa-pencil visible-xs" aria-hidden="true"></i></button>
+                        <button class="btn btn-default btn-sm disabled" data-confirm="Лицевой счет неактивен"><span
+                                class="hidden-xs"><i class="fa fa-files-o"></i> Оформить квитанцию</span><i
+                                class="fa fa-pencil visible-xs" aria-hidden="true"></i></button>
+                        <a href="{% url 'apartment_update' apartment.id %}" class="btn btn-primary btn-sm">
+                            <span class="hidden-xs">Редактировать квартиру</span><i class="fa fa-pencil visible-xs"
+                                                                                    aria-hidden="true"></i>
+                        </a>
                     </div>
                 </div>
-                <span class="label-mid">от</span>
-                <div class="form-group">
-                    <div class="input-group date">
-                        <div class="input-group-addon">
-                            <i class="glyphicon glyphicon-calendar"></i>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <table class="table table-bordered table-striped table-view">
+                                <tbody>
+                                <tr>
+                                    <td>Лицевой счет</td>
+                                    <td>
+                                        не указано
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Номер квартиры</td>
+                                    <td>{{ apartment.number }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Площадь</td>
+                                    <td>
+                                        {{ apartment.area }}м<sup>2</sup>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Дом</td>
+                                    <td>
+                                        <a href="{% url 'house_detail' apartment.house_id %}">
+                                            {{ apartment.house.address }} Дом №{{ apartment.house.name }}</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Секция</td>
+                                    <td>{{ apartment.section.name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Этаж</td>
+                                    <td>{{ apartment.floor.name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Владелец</td>
+                                    <td>
+                                         {% if apartment.owner %}
+                                             {{ apartment.owner }}
+                                        {% else %}
+                                             не указано
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Тариф</td>
+                                    <td>
+                                        {% if apartment.tariff %}
+                                             <a href="{% url 'tariff_detail' apartment.tariff_id%}">
+                                            {{ apartment.tariff.title }} </a>
+                                        {% else %}
+                                             не указано
+                                        {% endif %}
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div>
+                                <p><a href="{% url 'meter_apartment_list' %}?apartment_id={{ apartment.id }}">Посмотреть
+                                    показания счетчиков</a></p>
+                                <p>
+                                    <a href="/admin/account-transaction/index?AccountTransactionSearch%5Baccount_id%5D=0&AccountTransactionSearch%5Btype%5D=in">Посмотреть
+                                        приходы</a></p>
+                                <p><a href="/admin/invoice/index?InvoiceSearch%5Bflat_id%5D=306">Посмотреть
+                                    квитанции</a></p>
+                            </div>
                         </div>
-                        <input type="text" readonly class="form-control" value="{{ object.date|date:"d.m.Y" }}">
                     </div>
                 </div>
             </div>
-        </div>
-
-            <div class="my-box" style="min-height: 0">
-                <div class="container-fluid">
-                    <div style="text-align: right; margin-bottom: 5px; padding-top: 5px">
-                        <a href="{% url 'meter_update' object.id %}" class="btn btn-primary"
-                           style="font-size: 14px; max-height: 34px">Редактировать показание</a>
-                    </div>
-                    <div class="dropdown-divider" style="border-color:lightgrey"></div>
-                    <div style="max-width: 500px; padding-bottom: 5px">
-                        <table class="table table-hover table-striped table-responsive no-padding"
-                               style="color: #333333; font-size: 14px">
-                            <tr>
-                                <td style="width: 40%"><span style="font-weight: bold">Счетчик</span></td>
-                                <td style="width: 70%">{{ object.meter }}</td>
-                                <td style="width: 0%"></td>
-                            </tr>
-                            <tr>
-                                <td style="width: 30%"><span style="font-weight: bold">Дом</span></td>
-                                <td>
-                                    {% for house in houses %}
-                                        {% for section in house.sections.all %}
-                                            {% if section.id == object.apartment.section.id %}
-                                                <a href="{% url 'house_detail' house.id %}">{{ house.name }}</a>
-                                            {% endif %}
-                                        {% endfor %}
-                                    {% endfor %}
-
-                                </td>
-                                <td style="width: 0%"></td>
-                            </tr>
-                            <tr>
-                                <td style="width: 30%"><span style="font-weight: bold">Секция</span></td>
-                                <td>{{ object.apartment.section }}</td>
-                                <td style="width: 0%"></td>
-                            </tr>
-                            <tr>
-                                <td style="width: 30%"><span style="font-weight: bold">Квартира</span></td>
-                                {#                        <td><a href="{% url 'apartment_detail' object.apartment.id %}">{{ object.apartment.number }}</a></td>#}
-                                <td style="width: 0%"></td>
-                            </tr>
-                            <tr>
-                                <td style="width: 30%"><span style="font-weight: bold">Владелец</span></td>
-                                <td>
-                                    {% if object.apartment.owner %}
-                                        <a href="{% url 'owner_detail' object.apartment.owner.id %}">{{ object.apartment.owner.last_name }} {{ object.apartment.owner.first_name }} {{ object.apartment.owner.patronymic }}</a>
-                                    {% endif %}
-                                </td>
-                                <td style="width: 0%"></td>
-                            </tr>
-                            <tr>
-                                <td style="width: 30%"><span style="font-weight: bold">Текущие показания</span></td>
-                                <td>{{ object.expense }}</td>
-                                <td style="width: 0%"></td>
-                            </tr>
-                            <tr>
-                                <td style="width: 30%"><span style="font-weight: bold">Ед. изм.</span></td>
-                                <td>{{ object.meter.unit }}</td>
-                                <td style="width: 0%"></td>
-                            </tr>
-                            <tr>
-                                <td style="width: 30%"><span style="font-weight: bold">Статус</span></td>
-                                <td>
-                                    {% if object.status == 'new' %}
-                                        <small class="btn btn-sm btn-warning status">Новое</small>
-                                    {% elif object.status == 'accounted' %}
-                                        <small class="btn btn-sm btn-success status">Учтено</small>
-                                    {% elif object.status == 'paid' %}
-                                        <small class="btn btn-sm btn-success status">Оплачено</small>
-                                    {% elif object.status == 'zero' %}
-                                        <small class="btn btn-sm btn-primary status">Нулевое</small>
-                                    {% endif %}
-                                </td>
-                                <td style="width: 0%"></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </section>
     </div>
 {% endblock %}
 {% block script %}

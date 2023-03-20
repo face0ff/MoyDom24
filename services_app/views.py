@@ -322,7 +322,7 @@ class MeterApartmentList(ListView):
                                                          meter_id=self.request.GET.get('service_id'))
             meters = Services.objects.filter(show=True, id=self.request.GET.get('service_id'))
         else:
-            meter_readings = MeterReading.objects.filter(apartment_id=1)
+            meter_readings = MeterReading.objects.filter(apartment_id=self.request.GET.get('apartment_id'))
             meters = Services.objects.filter(show=True)
         sections = Section.objects.all()
         houses = House.objects.all()
@@ -423,7 +423,7 @@ def select_field(request):
     response = {}
     if request.GET.get('house_field'):
         house = House.objects.get(pk=request.GET.get('house_field'))
-        section_house = house.sections.all().values('id', 'name')
+        section_house = house.section_set.all().values('id', 'name')
         apart_house = Apartment.objects.filter(section__house=house).values('id', 'number')
         print(section_house)
         print(apart_house)

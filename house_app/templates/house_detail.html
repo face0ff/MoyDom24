@@ -45,17 +45,17 @@
                                 </tr>
                                 <tr>
                                     <td>Секций</td>
-                                    <td>{{ house.sections.all|length }}</td>
+                                    <td>{{ house.section_set.all|length }}</td>
                                 </tr>
                                 <tr>
                                     <td>Этажей</td>
-                                    <td>{{ house.floors.all|length }}</td>
+                                    <td>{{ house.floor_set.all|length }}</td>
                                 </tr>
                                 <tr>
                                     <td>Пользователи</td>
                                     <td>
                                         {% if house.users.all %}{% for user in house.users.all %}
-                                            <p style="padding: 0; margin: 0"><b>{{ user.role.get_role_display }}: </b>
+                                            <p style="padding: 0; margin: 0"><b>{{ user.role.get_roles_display }}: </b>
                                             <a href="{% url 'user_detail' user.id %}" style="text-decoration: none"> {{ user.first_name }} {{ user.last_name }}</a>
                                         {% endfor %}
                                         {% else %}<b>Не назначено</b>
